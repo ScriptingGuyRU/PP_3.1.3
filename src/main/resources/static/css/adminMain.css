@@ -45,7 +45,7 @@
 
 
 h5 {
-    padding-left: 40%;
+    /*padding-left: 40%;*/
 }
 
 #formAdd {
@@ -67,4 +67,8 @@ h5 {
 #modalDelete {
     margin-left: 18%;
     margin-right: 18%;
+}
+
+.error{
+    color: red;
 }

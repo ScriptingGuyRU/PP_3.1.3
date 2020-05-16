@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
     public boolean editUser(UserDto userDto) {
         User user = new User(userDto);
         user.setRoles(Arrays.stream(userDto.getRoles()).map(roleServices::getRoleByName).collect(Collectors.toSet()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.editUser(user);
     }
 }

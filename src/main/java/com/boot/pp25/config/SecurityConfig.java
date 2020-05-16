@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,12 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").anonymous()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/user/**").hasAnyAuthority("ADMIN","USER")
-                .antMatchers("/rest/**").permitAll();
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/js/**").permitAll();
     }
 
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception { //Для css
-//        web.ignoring().antMatchers("/resources/**").anyRequest();
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception { //Для css
+        web.ignoring().antMatchers("/resources/**");
+    }
 }
