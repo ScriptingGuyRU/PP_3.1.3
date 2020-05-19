@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 public class UserRepositoryImpl implements UserRepository {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -29,17 +30,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean addUser(User user) {
-        Session session = entityManager.unwrap(Session.class);
-        session.save(user);
-
-        return true;
+        try{
+            entityManager.persist(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override
     public boolean delete(Long id) {
         try {
-            User user = entityManager.find(User.class, id);
-            entityManager.remove(user);
+                String hql = "delete from User where id = :id";
+                entityManager.createQuery(hql)
+                        .setParameter("id",id).executeUpdate();
             return true;
         } catch (Exception e) {
             return false;
@@ -48,35 +52,31 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean editUser(User user) {
-        if (entityManager.find(User.class, user.getId()) != null) {
+        try {
             entityManager.merge(user);
             return true;
-        } else {
-            return false;
+        } catch (Exception e) {
+                return false;
         }
     }
 
     @Override
     public User getUserById(Long id) {
-        User user = entityManager.find(User.class, id);
-
-        return user;
+        return  entityManager.find(User.class, id);
     }
 
 
     @Override
     public User getUserByName(String name) {
-        User user = (User) entityManager
-                .createQuery("select u from User u where name = :name")
+        return entityManager
+                .createQuery("select u from User u where name = :name", User.class)
                 .setParameter("name", name).getSingleResult();
-        return user;
     }
 
     @Override
     public User getUserByEmail(String email) {
-        User user = (User) entityManager
+        return entityManager
                 .createQuery("from User where email = :email", User.class)
                 .setParameter("email", email).getSingleResult();
-        return user;
     }
 }

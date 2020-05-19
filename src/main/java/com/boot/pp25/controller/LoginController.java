@@ -13,9 +13,4 @@ public class LoginController {
         return "login";
     }
 
-
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
 }

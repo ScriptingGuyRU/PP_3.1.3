@@ -43,32 +43,6 @@ public class AdminController {
         return modelAndView;
     }
 
-//    @PostMapping("/add")
-//    public ModelAndView addUserControllerPost(@ModelAttribute("user") @Valid User user,
-//                                              @RequestParam(value = "rolesFromHtml") String rolesFromHtml) {
-//        ModelAndView mv = new ModelAndView();
-//        user.setRoles(getSetRoles(rolesFromHtml));
-//        userService.saveUser(user);
-//        logger.info("Add User: " + user.toString());
-//        mv.setViewName("redirect:/admin");
-//        return mv;
-//    }
-//
-//    @PostMapping("/edit")
-//    public ModelAndView editUserControllerPost(@ModelAttribute @Valid User user,
-//                                               @RequestParam(value = "rolesFromHtml") String rolesFromHtml) {
-//        ModelAndView mv = new ModelAndView();
-//        user.setRoles(getSetRoles(rolesFromHtml));
-//        userService.saveUser(user);
-//        mv.setViewName("redirect:/admin");
-//        return mv;
-//    }
-//
-//    @PostMapping("/delete/{id}")
-//    public String deleteUser(@PathVariable("id") Long id){
-//        userService.deleteById(id);
-//        return "redirect:/admin";
-//    }
 
     public Set<Role> getSetRoles(String role){
         Set<Role> userRoles = new HashSet<>();

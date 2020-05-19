@@ -1,5 +1,6 @@
 $(document).ready(function () {
     getJson3();
+    getAuthUser();
     clearTeble();
     addUser();
     validatorAdd('#formAdd');
@@ -17,7 +18,24 @@ function getJson3() {
         success: function (data) {
             data.forEach(function (element) {
                 addRow(element);
-            })
+            });
+        },
+        error: function () {
+            alert("Ошибка выполнения");
+        }
+    });
+}
+
+// Ajax get Auth user
+function getAuthUser() {
+    $.ajax({
+        url: 'http://localhost:8080/api/auth',
+        cache: false,
+        type: 'GET',
+        contentType: "application/json;charset=UTF-8",
+        dataType: 'json',
+        success: function (data2) {
+            addRowAuth(data2);
         },
         error: function () {
             alert("Ошибка выполнения");
@@ -46,11 +64,30 @@ function addRow(user) {
     $('#usersTableTbody').append(addTd);
 }
 
+function addRowAuth(user) {
+    let id = user.id;
+    let name = user.userName;
+    let lastName = user.lastName;
+    let email = user.email;
+    let age = user.age;
+    let roles = user.roles;
+    let addTd = `<tr>
+                    <td>${id}</td>
+                    <td>${name}</td>
+                    <td>${lastName}</td>
+                    <td>${age}</td>
+                    <td>${email}</td>
+                    <td>${roles}</td>
+                </tr>'`;
+    $('#usersAuthTableTbody').append(addTd);
+    $('#headerEmail').html(email);
+    $('#headerRoles').html(roles + " ");
+}
+
 // Add user
 function addUser() {
     $("#btnAddSubmit").click(
         function () {
-            // validatorAdd('#formAdd');
             if (!($('#formAdd').valid())) return;
             let userName = document.getElementById("userName").value;
             let lastName = document.getElementById("lastName").value;
@@ -77,7 +114,7 @@ function addUser() {
                 userName: userName,
                 lastName: lastName
             };
-            let serializedUser = JSON.stringify(data);
+            let serializedUser = JSON.stringify(data);//todo delete
             $.ajax({
                 url: 'http://localhost:8080/api/',
                 type: "POST",

@@ -38,9 +38,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-11">
-                <span th:text="${userEmail}" class="font-weight-bold"></span>
+                <span id="headerEmail" class="font-weight-bold"></span>
                 with roles:
-                <span th:text="${rolesAuth}" id="headerRoles" class="font-weight-bold"></span>
+                <span id="headerRoles" class="font-weight-bold"></span>
             </div>
             <div class="col-lg-1 text-right">
                 <form method="post" action="/logout">
@@ -155,15 +155,8 @@
                                     <th scope="col">Role</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <td th:text="${authUser.id}"></td>
-                                <td th:text="${authUser.userName}"></td>
-                                <td th:text="${authUser.lastName}"></td>
-                                <td th:text="${authUser.age}"></td>
-                                <td th:text="${authUser.email}"></td>
-                                <td>
-                                    <div th:each="role : ${authUser.roles}" th:text="${role}"></div>
-                                </td>
+                                <tbody id="usersAuthTableTbody">
+                                <tr >
                                 </tr>
                                 </tbody>
                             </table>

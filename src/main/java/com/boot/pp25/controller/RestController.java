@@ -6,6 +6,7 @@ import com.boot.pp25.service.abstractServ.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -48,6 +49,15 @@ public class RestController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping(value = "/auth")
+    public ResponseEntity<UserDto> getAuthUser(Authentication auth) {
+        UserDto userDto = new UserDto((User) auth.getPrincipal());
+
+        return  userDto != null ?
+                new ResponseEntity<>(userDto,HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PutMapping
     public ResponseEntity<?> update(@RequestBody UserDto userDto) {
         if (hasNull(userDto)) {
@@ -72,6 +82,7 @@ public class RestController {
             || userDto.getPassword().equals("")
             || userDto.getRoles().length == 0) {
             return true;
-        }   else return false;
+        }
+        return false;
     }
 }
